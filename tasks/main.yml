@@ -1,0 +1,8 @@
+---
+- name: Test if ubuntu-desktop package is installed
+  shell:  /usr/bin/dpkg-query --show --showformat='${db:Status-Status}\n' 'ubuntu-desktop' 1> /dev/null 2>&1 && echo 'True' || echo 'False'
+  register: ubuntu_privacy_ubuntu_desktop_package_is_installed
+  changed_when: False
+
+- set_fact:
+    ubuntu_privacy_use_unity: "{{ ubuntu_privacy_ubuntu_desktop_package_is_installed | bool }}"
