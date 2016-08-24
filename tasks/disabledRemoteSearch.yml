@@ -1,0 +1,8 @@
+- name: Get remote search config
+  command: "{{ ubuntu_privacy_gsettings_path }} get {{ ubuntu_privacy_canonical_schema }} remote-content-search"
+  register: ubuntu_privacy_remote_content_search
+  changed_when: False
+
+- name: Disable remote search
+  command: "dbus-launch {{ ubuntu_privacy_gsettings_path }} set '{{ ubuntu_privacy_canonical_schema }}' 'remote-content-search' none"
+  when: ubuntu_privacy_remote_content_search.stdout != "'none'"

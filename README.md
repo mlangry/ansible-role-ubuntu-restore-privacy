@@ -15,7 +15,11 @@ None.
 Role Variables
 --------------
 
-None.
+````yaml
+ubuntu_privacy_min_version: 12.10
+ubuntu_privacy_gsettings_path: /usr/bin/gsettings
+ubuntu_privacy_canonical_schema: com.canonical.Unity.Lenses
+````
 
 Dependencies
 ------------

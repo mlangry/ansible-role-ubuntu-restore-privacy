@@ -1,0 +1,9 @@
+- name: Get real canonical-schema name
+  shell: "{{ ubuntu_privacy_gsettings_path }} list-schemas | grep -i {{ ubuntu_privacy_canonical_schema }} | head -1"
+  register: canonical_schema
+  changed_when: False
+
+- name: Override canonical-schema name
+  set_fact:
+    ubuntu_privacy_canonical_schema: "{{ canonical_schema.stdout }}"
+  when: canonical_schema.stdout != ubuntu_privacy_canonical_schema
