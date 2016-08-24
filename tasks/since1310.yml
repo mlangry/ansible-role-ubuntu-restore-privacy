@@ -1,0 +1,12 @@
+- name: Get Disabled scopes
+  shell: "{{ ubuntu_privacy_gsettings_path }} get {{ ubuntu_privacy_canonical_schema }} disabled-scopes | sed \"s/@as\\s*//g\" | sed \"s/'/\\\"/g\""
+  register: ubuntu_privacy_current_disabled_scopes
+  changed_when: False
+
+- name: Calculate scope to disable
+  set_fact:
+    ubuntu_privacy_scopes_to_disable: "{{ ubuntu_privacy_current_disabled_scopes.stdout | from_json | union(ubuntu_privacy_disable_scopes) }}"
+
+- name: Disable scopes
+  command: "dbus-launch {{ ubuntu_privacy_gsettings_path }} set '{{ ubuntu_privacy_canonical_schema }}' 'disabled-scopes' '{{ ubuntu_privacy_scopes_to_disable | to_json }}'"
+  when: ubuntu_privacy_scopes_to_disable != ubuntu_privacy_current_disabled_scopes.stdout | from_json
