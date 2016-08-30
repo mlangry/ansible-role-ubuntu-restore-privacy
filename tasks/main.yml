@@ -5,7 +5,7 @@
   changed_when: False
 
 - set_fact:
-    ubuntu_privacy_use_unity: "{{ ubuntu_privacy_ubuntu_desktop_package_is_installed | bool }}"
+    ubuntu_privacy_use_unity: "{{ ubuntu_privacy_ubuntu_desktop_package_is_installed.stdout | bool }}"
 
 - include: checkCanonicalSchema.yml
   when: ansible_distribution == "Ubuntu" and ubuntu_privacy_use_unity and ansible_distribution_version | float >= ubuntu_privacy_min_version
